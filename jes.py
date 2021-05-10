@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #### Dependencies ####
 import IPython.display as ipd
 import numpy as np
@@ -188,3 +189,6 @@ print("Training completed in time: ", duration)
 score = model.evaluate(x_train, y_train, verbose=0)
 
 score = model.evaluate(x_test, y_test, verbose=0)
+=======
+smol pp
+>>>>>>> febfdab4a9538cc26d4fcb9a0d7b18f221a6d260
