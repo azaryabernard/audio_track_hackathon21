@@ -8,6 +8,7 @@ import IPython
 from tensorflow import keras
 import os
 from scipy.io.wavfile import read
+import noisereduce as nr
 
 os.chdir('/Users/azaryabernard/_HACKATHON/audio_track_hackathon21')
 
@@ -41,22 +42,31 @@ def plotAudio2(output):
 # Higher tolence to prevent small silence parts from splitting the audio.
 # Returns array containing arrays of [start, end] points of resulting audio clips
 def split_audio(audio_data, w, h, threshold_level, tolerence=10):
+    print("masuk0")
     split_map = []
     start = 0
     data = np.abs(audio_data)
+    print(np.mean(data))
     threshold = threshold_level*np.mean(data[:25000])
     inside_sound = False
     near = 0
+    print("threshold")
+    print(threshold)
     for i in range(0,len(data)-w, h):
         win_mean = np.mean(data[i:i+w])
+        #print("mean")
+        #print(win_mean)
         if(win_mean>threshold and not(inside_sound)):
+            print("MASUK1")
             inside_sound = True
             start = i
         if(win_mean<=threshold and inside_sound and near>tolerence):
             inside_sound = False
             near = 0
+            print("MASUK2")
             split_map.append([start, i])
         if(inside_sound and win_mean<=threshold):
+            print("MASUK3")
             near += 1
     return split_map
 
@@ -69,13 +79,14 @@ def predictSound(X):
     stfts = np.abs(librosa.stft(X, n_fft=512, hop_length=256, win_length=512))
     stfts = np.mean(stfts,axis=1)
     stfts = minMaxNormalize(stfts)
+    print(np.array([stfts]))
     result = model.predict(np.array([stfts]))
     predictions = [np.argmax(y) for y in result]
     return lb.inverse_transform([predictions[0]])[0]
 
 #noisy_part = raw_audio[0:50000]  # Empherically selected noisy_part position for every sample
 #nr_audio = nr.reduce_noise(audio_clip=data, noise_clip=noisy_part, verbose=False)
-audiopreperocessed = 'Main/UrbanSound8K/audio/fold5/111671-8-0-14.wav'
+audiodir = 'Main/UrbanSound8K/audio/fold5/111671-8-0-14.wav'
 
 def extract_features(file_name):
     audio, sample_rate = librosa.load(file_name, res_type='kaiser_fast') 
@@ -85,16 +96,27 @@ def extract_features(file_name):
     return mfccs_processed
 
 
-audionp = read(audiopreperocessed)
-print(audionp)
-audionp = np.array(audionp[1], dtype=float)
+raw_audio, sr = librosa.load(audiodir)
+noisy_part = raw_audio[0:50000]  # Empherically selected noisy_part position for every sample
+audionp = nr.reduce_noise(audio_clip=raw_audio, noise_clip=noisy_part, verbose=False)
 
-plotAudio(audionp)
+#print(audionp)
 
-sound_clips = split_audio(audionp, 10000, 2500, 15)
+#plotAudio2(audionp)
+#print("len audio: " + str(len(audionp)))
+sound_clips = split_audio(audionp, 10000, 2500, 2)
+
+print("MASUK!K!!!!")
+print(sound_clips)
+print("!!!!!")
 
 for intvl in sound_clips:
-    clip = extract_features(audiopreprocessed) # Empherically select top_db for every sample
+    print("INTVL")
+    print(intvl)
+    print("MASUK!!!")
+    clip, index = librosa.effects.trim(audionp[intvl[0]:intvl[1]], top_db=20, frame_length=512, hop_length=64) # Empherically select top_db for every sample
+    print("CLIP")
+    print(clip)
     print(predictSound(clip))
     plotAudio2(clip)
     IPython.display.display(IPython.display.Audio(data=clip, rate=sr))
