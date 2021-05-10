@@ -48,8 +48,8 @@ def read_file_properties(filename):
 
         return (num_channels, sample_rate, bit_depth)
     
-
-
+dirpath = '/Users/azaryabernard/_HACKATHON/audio_track_hackathon21/Main'
+os.chdir(dirpath)
 df = pd.read_csv('UrbanSound8K/metadata/UrbanSound8K.csv')
 
 # Get all labels
@@ -188,3 +188,5 @@ print("Training completed in time: ", duration)
 score = model.evaluate(x_train, y_train, verbose=0)
 
 score = model.evaluate(x_test, y_test, verbose=0)
+
+model.save("testmodel.model")
