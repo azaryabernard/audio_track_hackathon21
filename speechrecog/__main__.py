@@ -6,13 +6,16 @@ r = sr.Recognizer()
 m = sr.Microphone()
 
 stopCommands = ["stop","stop listening"]
-callCommand = ["ok Google" , "hey Google" , "hey Alexa" , "Alexa","hey"]
+callCommand = ["OK Google" , "hey Google" , "hey Alexa" , "Alexa","hey"]
 
 def processCommand(speech):
 
-    #if not (callCommand in speech):
-        #print("no call command specified")
-        #break
+    for cmd in callCommand:
+        if (cmd in speech):
+            print("call command specified")
+            break
+    else:
+        return
 
     lights_on = re.compile(r'^(?=.*turn)((?=.*lights)|(?=.*light))(?=.*on).*$', re.I)
     lights_off = re.compile(r'^(?=.*turn)((?=.*lights)|(?=.*light))(?=.*off).*$', re.I)
