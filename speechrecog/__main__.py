@@ -5,8 +5,8 @@ import philips_hue as ph
 r = sr.Recognizer()
 m = sr.Microphone()
 
-stopCommands = ["stop","stop listening"]
-callCommand = ["OK Google" , "hey Google" , "hey Alexa" , "Alexa","hey"]
+stopCommands = ["stop","stop listening","turn off"]
+callCommand = ["OK Google" , "hey Google" , "hey Alexa" , "Alexa", "hey", "hey Jeffrey","Jeffrey"]
 
 def processCommand(speech):
 
@@ -24,13 +24,26 @@ def processCommand(speech):
     if lights_on.match(speech):
         ph.turn_on_group('lights')
         print("turning lights on")
+        return
     
     if lights_off.match(speech):
         ph.turn_off_group('lights')
         print("turning lights off")
+        return
     
     if play_song.match(speech):
         print("playing a song")
+        return
+
+    for stopCmd in stopCommands:
+        if stopCmd in value:
+            print("stop listening...")
+            exit()
+    
+    if("identify" in speech):
+
+        return
+
 
 
 
@@ -68,9 +81,6 @@ try:
 
                 processCommand(value)
 
-                if "stop listening" in value:
-                    print("stop listening...")
-                    break
         except sr.UnknownValueError:
             print("Oops! Didn't catch that")
         except sr.RequestError as e:
