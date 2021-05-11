@@ -8,7 +8,7 @@ import os
 
 os.chdir('/home/pi/_HACKATHON/audio_track_hackathon21')
 
-#file_name = 'speechrecog/streetsiren.wav'
+file_name = 'speechrecog/policesiren.wav'
 
 
 
@@ -36,3 +36,6 @@ def classify(fn):
     print(result)
     predictions = [np.argmax(y) for y in result]
     print(lb.inverse_transform([predictions[0]])[0])
+
+classify(file_name)
+
