@@ -97,6 +97,7 @@ def processCommand(speech):
 
     if set_brightness.match(speech):
         percentage = speech.isdigit()
+        print (percentage)
         
         if percentage > 100:
             ph.set_brightness_group('lights', 100)
