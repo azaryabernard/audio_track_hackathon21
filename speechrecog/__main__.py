@@ -6,7 +6,8 @@ m = sr.Microphone()
 
 stopCommands = ["stop","stop listening"]
 
-lights_off = re.compile(".*turn.*lights.*off.*")
+lights_off = re.compile(r'^(?=.*turn)((?=.*lights)|(?=.*light))(?=.*off).*$', re.I)
+
 
 try:
     print("A moment of silence, please...")
