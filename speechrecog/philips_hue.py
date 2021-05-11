@@ -46,11 +46,18 @@ def get_brightness_group(where):
 
 def decrease_brightness_group(where):
     bri = get_brightness_group(where)
-    set_brightness_group(where, bri - 20)
+    if bri > 20:
+        set_brightness_group(where, bri - 20)
+    elif:
+        set_brightness_group(where, 0)
+
 
 def increase_brightness_group(where):
     bri = get_brightness_group(where)
-    set_brightness_group(where, bri + 20)
+    if bri < 80:
+        set_brightness_group(where, bri + 20)
+    elif:
+        set_brightness_group(where, 0)
 
 def set_color(where, color):
     group_id = groups[where]
