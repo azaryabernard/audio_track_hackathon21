@@ -96,18 +96,19 @@ def processCommand(speech):
         return
 
     if set_brightness.match(speech):
-        percentage = speech.isdigit()
-        print (percentage)
+        temp = re.findall(r'\d+', speech)
+        percentage = list(map(int, temp))
+        print (percentage[0])
         
-        if percentage > 100:
+        if percentage[0] > 100:
             ph.set_brightness_group('lights', 100)
             print("setting brightness to 100%")
-        elif percentage < 0:
+        elif percentage[0] < 0:
             ph.set_brightness_group('lights', 0)
             print("setting brightness to 0%")
         else:
-            ph.set_brightness_group('lights', percentage)
-            print("setting brightness to " + percentage + "%")
+            ph.set_brightness_group('lights', percentage[0])
+            print("setting brightness to " + str(percentage[0]) + "%")
 
         return
 
