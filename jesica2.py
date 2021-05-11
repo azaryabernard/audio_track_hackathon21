@@ -3,8 +3,11 @@ from sklearn.preprocessing import LabelEncoder
 import numpy as np
 import librosa
 import matplotlib.pyplot as plt
+import os
 
-file_name = '/Users/brigittajesica/Downloads/146186-5-0-0.wav'
+os.chdir('/home/pi/_HACKATHON/audio_track_hackathon21')
+
+file_name = 'speechrecog/streetsiren.wav'
 
 def extract_features(file_name):
     audio, sample_rate = librosa.load(file_name, res_type='kaiser_fast') 
@@ -14,7 +17,9 @@ def extract_features(file_name):
     return mfccs_processed
 
 #Load segment audio classification model
+print("TEST1")
 model = keras.models.load_model('Main/testmodel.model')
+print("TEST2")
 # Replicate label encoder
 lb = LabelEncoder()
 lb.fit_transform(['air_conditioner', 'car_horn', 'children_playing', 'dog_bark', 'drilling',  'engine_idling', 'gun_shot', 'jackhammer', 'siren', 'street_music'])
