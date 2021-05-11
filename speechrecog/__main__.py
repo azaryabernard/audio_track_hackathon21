@@ -75,7 +75,15 @@ def processCommand(speech):
     
     play_song = re.compile(r'^(?=.*play)((?=.*song)|(?=.*something)).*$', re.I)
     stop_song = re.compile(r'^(?=.*stop)((?=.*playing)|(?=.*music)).*$', re.I)
-    
+    pause_song = re.compile(r'^(?=.*pause)((?=.*song)|(?=.*music))*.*$', re.I)
+    increase_volume = re.compile(r'^(?=.*play)((?=.*song)|(?=.*something)).*$', re.I)
+    decrease_volume = re.compile(r'^(?=.*play)((?=.*song)|(?=.*something)).*$', re.I)
+
+    increase_temperature = re.compile(r'^(?=.*play)((?=.*song)|(?=.*something)).*$', re.I)
+    decrease_temperature = re.compile(r'^(?=.*play)((?=.*song)|(?=.*something)).*$', re.I)
+
+    open_door = re.compile(r'^(?=.*play)((?=.*song)|(?=.*something)).*$', re.I)
+    close_door = re.compile(r'^(?=.*play)((?=.*song)|(?=.*something)).*$', re.I)
 
     if lights_on.match(speech):
         ph.turn_on_group('lights')
