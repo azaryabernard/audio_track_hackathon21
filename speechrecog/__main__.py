@@ -1,3 +1,4 @@
+from speechrecog.philips_hue import rotate_color, set_color
 import speech_recognition as sr
 import re
 import philips_hue as ph
@@ -70,6 +71,8 @@ def processCommand(speech):
     decrease_brightness = re.compile(r'^(?=.*decrease)(?=.*brightness).*$', re.I)
     increase_brightness = re.compile(r'^(?=.*increase)(?=.*brightness).*$', re.I)
     set_brightness = re.compile(r'^(?=.*set)(?=.*brightness).*$', re.I)
+    rotate_color = re.compile(r'^(?=.*rotate)(?=.*color).*$', re.I)
+    set_color = re.compile(r'^(?=.*set)(?=.*color).*$', re.I)
     
     play_song = re.compile(r'^(?=.*play)((?=.*song)|(?=.*something)).*$', re.I)
     stop_song = re.compile(r'^(?=.*stop)((?=.*playing)|(?=.*music)).*$', re.I)
@@ -110,6 +113,14 @@ def processCommand(speech):
             print("setting brightness to " + str(percentage[0]) + "%")
 
         return
+
+    if set_color.match(speech):
+        temp = speech.split(" ")
+        color = temp[0]
+        ph.set_color('lights', color)
+
+    if rotate_color.match(speech):
+        ph.rotate_color()
 
     if play_song.match(speech):
         print("playing a song")
