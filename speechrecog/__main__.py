@@ -67,9 +67,9 @@ def processCommand(speech):
 
     lights_on = re.compile(r'^(?=.*turn)((?=.*lights)|(?=.*light))(?=.*on).*$', re.I)
     lights_off = re.compile(r'^(?=.*turn)((?=.*lights)|(?=.*light))(?=.*off).*$', re.I)
-    decrease_brightness = re.compile(r'^(?=.*turn)((?=.*lights)|(?=.*light))(?=.*on).*$', re.I)
-    increase_brightness = re.compile(r'^(?=.*turn)((?=.*lights)|(?=.*light))(?=.*on).*$', re.I)
-    set_brightness = re.compile(r'^(?=.*turn)((?=.*lights)|(?=.*light))(?=.*on).*$', re.I)
+    decrease_brightness = re.compile(r'^(?=.*decrease)(?=.*brightness).*$', re.I)
+    increase_brightness = re.compile(r'^(?=.*increase)(?=.*brightness).*$', re.I)
+    set_brightness = re.compile(r'^(?=.*set)(?=.*brightness).*$', re.I)
     
     play_song = re.compile(r'^(?=.*play)((?=.*song)|(?=.*something)).*$', re.I)
     stop_song = re.compile(r'^(?=.*stop)((?=.*playing)|(?=.*music)).*$', re.I)
@@ -85,6 +85,31 @@ def processCommand(speech):
         print("turning lights off")
         return
     
+    if decrease_brightness.match(speech):
+        ph.decrease_brightness_group('lights')
+        print("decreasing brightness")
+        return
+
+    if increase_brightness.match(speech):
+        ph.increase_brightness_group('lights')
+        print("decreasing brightness")
+        return
+
+    if set_brightness.match(speech):
+        percentage = speech.isdigit()
+        
+        if percentage > 100:
+            ph.set_brightness_group('lights', 100)
+            print("setting brightness to 100%")
+        elif percentage < 0:
+            ph.set_brightness_group('lights', 0)
+            print("setting brightness to 0%")
+        else:
+            ph.set_brightness_group('lights', percentage)
+            print("setting brightness to " + percentage + "%")
+
+        return
+
     if play_song.match(speech):
         print("playing a song")
         return

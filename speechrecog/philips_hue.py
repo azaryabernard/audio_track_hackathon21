@@ -44,11 +44,18 @@ def get_brightness_group(where):
 
 def decrease_brightness_group(where):
     bri = get_brightness_group(where)
-    set_brightness_group(where, bri - 20)
+    if bri > 20:
+        set_brightness_group(where, bri - 20)
+    elif:
+        set_brightness_group(where, 0)
+
 
 def increase_brightness_group(where):
     bri = get_brightness_group(where)
-    set_brightness_group(where, bri + 20)
+    if bri < 80:
+        set_brightness_group(where, bri + 20)
+    elif:
+        set_brightness_group(where, 0)
 
 #turn_on_group('lights')
 # {"1":{"name":"Azar","lights":["4","3","2","1"],"sensors":[],"type":"Room","state":{"all_on":true,"any_on":true},"recycle":false,"class":"Bedroom","action":{"on":true,"bri":254,"hue":50996,"sat":42,"effect":"none","xy":[0.3616,0.3315],"ct":222,"alert":"none","colormode":"xy"}},"2":{"name":"Entertainment-Bereich 1","lights":["1","2"],"sensors":[],"type":"Entertainment","state":{"all_on":true,"any_on":true},"recycle":false,"class":"TV","stream":{"proxymode":"auto","proxynode":"/lights/1","active":false,"owner":null},"locations":{"1":[-0.01,0.29,0.00],"2":[0.00,1.00,0.00]},"action":{"on":true,"bri":254,"hue":8402,"sat":140,"effect":"none","xy":[0.4575,0.4099],"ct":366,"alert":"none","colormode":"xy"}},"3":{"name":"Entertainment-Bereich 2","lights":["2"],"sensors":[],"type":"Entertainment","state":{"all_on":true,"any_on":true},"recycle":false,"class":"TV","stream":{"proxymode":"auto","proxynode":"/lights/2","active":false,"owner":null},"locations":{"2":[0.00,1.00,0.00]},"action":{"on":true,"bri":254,"hue":8402,"sat":140,"effect":"none","xy":[0.4575,0.4099],"ct":366,"alert":"none","colormode":"xy"}}}
