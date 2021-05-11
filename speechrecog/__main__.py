@@ -21,7 +21,7 @@ try:
         print("Got it! Now to recognize it...")
         try:
             # recognize speech using Google Speech Recognition
-            value = r.recognize_google(audio)
+            value = r.recognize_google(audio, language="ko")
 
             # we need some special handling here to correctly print unicode characters to standard output
             if str is bytes:  # this version of Python uses bytes for strings (Python 2)
