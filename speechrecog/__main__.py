@@ -1,4 +1,3 @@
-from speechrecog.philips_hue import rotate_color, set_color
 import speech_recognition as sr
 import re
 import philips_hue as ph
