@@ -1,24 +1,34 @@
 import speech_recognition as sr
+import re
+import philips_hue as ph
 
 r = sr.Recognizer()
 m = sr.Microphone()
 
 stopCommands = ["stop","stop listening"]
+callCommand = ["ok Google" , "hey Google" , "hey Alexa" , "Alexa","hey"]
 
 def processCommand(speech):
+
+    #if not (callCommand in speech):
+        #print("no call command specified")
+        #break
+
     lights_on = re.compile(r'^(?=.*turn)((?=.*lights)|(?=.*light))(?=.*on).*$', re.I)
     lights_off = re.compile(r'^(?=.*turn)((?=.*lights)|(?=.*light))(?=.*off).*$', re.I)
     play_song = re.compile(r'^(?=.*play)((?=.*song)|(?=.*something)).*$', re.I)
-    stop_listening = re.compile(r'^(?=.*stopCommands).*$', re.I)
 
     if lights_on.match(speech):
+        ph.turn_on_group('lights')
         print("turning lights on")
     
     if lights_off.match(speech):
+        ph.turn_off_group('lights')
         print("turning lights off")
     
     if play_song.match(speech):
         print("playing a song")
+
 
 
 
@@ -32,7 +42,7 @@ try:
     while True:
         print("Say something!")
         try :
-            with m as source: audio = r.listen(source, timeout = 3, phrase_time_limit = 5)
+            with m as source: audio = r.listen(source, timeout = 3, phrase_time_limit = 7)
         except sr.WaitTimeoutError as e:
             print("Timeout!")
             print(e)
