@@ -1,7 +1,7 @@
 import speech_recognition as sr
 import re
 import philips_hue as ph
-'''import soundclassify as sc'''
+import soundclassify as sc
 import pyaudio
 import wave
 
@@ -11,7 +11,7 @@ m = sr.Microphone()
 stopCommands = ["stop","stop listening"]
 callCommand = ["OK Google" , "hey Google" , "hey Alexa" , "Alexa", "hey", "hey Jeffrey","Jeffrey","hey Dennis"]
 
-'''def Record():
+def Record():
     CHUNK = 1024
     FORMAT = pyaudio.paInt16
     CHANNELS = 2
@@ -48,7 +48,7 @@ callCommand = ["OK Google" , "hey Google" , "hey Alexa" , "Alexa", "hey", "hey J
     wf.writeframes(b''.join(frames))
     wf.close()
 
-    return WAVE_OUTPUT_FILENAME'''
+    return WAVE_OUTPUT_FILENAME
 
 
 def processCommand(speech):
@@ -114,13 +114,11 @@ def processCommand(speech):
     if play_song.match(speech):
         print("playing a song")
         return
-
-    
     
     if("identify" in speech):
         #todo
         path = Record()
-        sc.classify(path)
+        #sc.classify(path)
         return
 
 keywords_lights_off = re.compile(r'^(?=.*turn)((?=.*lights)|(?=.*light))(?=.*off).*$', re.I)
