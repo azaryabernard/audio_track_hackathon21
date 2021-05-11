@@ -1,13 +1,29 @@
 import speech_recognition as sr
-import re
 
 r = sr.Recognizer()
 m = sr.Microphone()
 
 stopCommands = ["stop","stop listening"]
 
-lights_off = re.compile(r'^(?=.*turn)((?=.*lights)|(?=.*light))(?=.*off).*$', re.I)
+def processCommand(speech):
+    lights_on = re.compile(r'^(?=.*turn)((?=.*lights)|(?=.*light))(?=.*on).*$', re.I)
+    lights_off = re.compile(r'^(?=.*turn)((?=.*lights)|(?=.*light))(?=.*off).*$', re.I)
+    play_song = re.compile(r'^(?=.*play)((?=.*song)|(?=.*something)).*$', re.I)
+    stop_listening = re.compile(r'^(?=.*stopCommands).*$', re.I)
 
+    if lights_on.match(speech):
+        print("turning lights on")
+    
+    if lights_off.match(speech):
+        print("turning lights off")
+    
+    if play_song.match(speech):
+        print("playing a song")
+
+
+
+keywords_lights_off = re.compile(r'^(?=.*turn)((?=.*lights)|(?=.*light))(?=.*off).*$', re.I)
+keywords_lights_on = re.compile(r'^(?=.*turn)((?=.*lights)|(?=.*light))(?=.*on).*$', re.I)
 
 try:
     print("A moment of silence, please...")
@@ -37,8 +53,7 @@ try:
             else:  # this version of Python uses unicode for strings (Python 3+)
                 print("You said {}".format(value))
 
-                if lights_off.match(value):
-                    print("turning lights off")
+                processCommand(value)
 
                 if "stop listening" in value:
                     print("stop listening...")
