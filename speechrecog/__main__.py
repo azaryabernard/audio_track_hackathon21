@@ -128,7 +128,7 @@ def processCommand(speech):
     if("identify" in speech):
         #todo
         path = Record()
-        #sc.classify(path)
+        sc.classify(path)
         return
 
 keywords_lights_off = re.compile(r'^(?=.*turn)((?=.*lights)|(?=.*light))(?=.*off).*$', re.I)
