@@ -1,17 +1,16 @@
 import speech_recognition as sr
 import re
 import philips_hue as ph
-'''import soundclassify as sc'''
 import pyaudio
 import wave
 
 r = sr.Recognizer()
 m = sr.Microphone()
 
-stopCommands = ["stop","stop listening"]
-callCommand = ["OK Google" , "hey Google" , "hey Alexa" , "Alexa", "hey", "hey Jeffrey","Jeffrey","hey Dennis"]
+stopCommands = ["stop","stop listening","turn off"]
+callCommand = ["OK Google" , "hey Google" , "hey Alexa" , "Alexa", "hey", "hey Jeffrey","Jeffrey"]
 
-'''def Record():
+def Record():
     CHUNK = 1024
     FORMAT = pyaudio.paInt16
     CHANNELS = 2
@@ -48,15 +47,10 @@ callCommand = ["OK Google" , "hey Google" , "hey Alexa" , "Alexa", "hey", "hey J
     wf.writeframes(b''.join(frames))
     wf.close()
 
-    return WAVE_OUTPUT_FILENAME'''
+    return WAVE_OUTPUT_FILENAME
 
 
 def processCommand(speech):
-
-    for stopCmd in stopCommands:
-        if stopCmd in value:
-            print("stop listening...")
-            exit()
 
     for cmd in callCommand:
         if (cmd in speech):
@@ -67,13 +61,7 @@ def processCommand(speech):
 
     lights_on = re.compile(r'^(?=.*turn)((?=.*lights)|(?=.*light))(?=.*on).*$', re.I)
     lights_off = re.compile(r'^(?=.*turn)((?=.*lights)|(?=.*light))(?=.*off).*$', re.I)
-    decrease_brightness = re.compile(r'^(?=.*turn)((?=.*lights)|(?=.*light))(?=.*on).*$', re.I)
-    increase_brightness = re.compile(r'^(?=.*turn)((?=.*lights)|(?=.*light))(?=.*on).*$', re.I)
-    set_brightness = re.compile(r'^(?=.*turn)((?=.*lights)|(?=.*light))(?=.*on).*$', re.I)
-    
     play_song = re.compile(r'^(?=.*play)((?=.*song)|(?=.*something)).*$', re.I)
-    stop_song = re.compile(r'^(?=.*stop)((?=.*playing)|(?=.*music)).*$', re.I)
-    
 
     if lights_on.match(speech):
         ph.turn_on_group('lights')
@@ -89,14 +77,11 @@ def processCommand(speech):
         print("playing a song")
         return
 
+    for stopCmd in stopCommands:
+        if stopCmd in value:
+            print("stop listening...")
+            exit()
     
-    
-    if("identify" in speech):
-        #todo
-        path = Record()
-        sc.classify(path)
-        return
-
 keywords_lights_off = re.compile(r'^(?=.*turn)((?=.*lights)|(?=.*light))(?=.*off).*$', re.I)
 keywords_lights_on = re.compile(r'^(?=.*turn)((?=.*lights)|(?=.*light))(?=.*on).*$', re.I)
 
