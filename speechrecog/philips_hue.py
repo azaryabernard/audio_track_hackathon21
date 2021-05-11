@@ -46,7 +46,7 @@ def decrease_brightness_group(where):
     bri = get_brightness_group(where)
     if bri > 20:
         set_brightness_group(where, bri - 20)
-    elif:
+    else:
         set_brightness_group(where, 0)
 
 
@@ -54,7 +54,7 @@ def increase_brightness_group(where):
     bri = get_brightness_group(where)
     if bri < 80:
         set_brightness_group(where, bri + 20)
-    elif:
+    else:
         set_brightness_group(where, 0)
 
 #turn_on_group('lights')
