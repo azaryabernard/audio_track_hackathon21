@@ -4,11 +4,15 @@ import urllib
 from requests.api import request
 from rgbxy import Converter
 import webcolors
+import time
+
 
 converter = Converter()
 
 bridge_ip = "192.168.0.2"
 bridge_username = "soduBL8lu551zb71pFnoxwZFAgoCzcPWvk1z9K4g"
+
+
 
 groups = { 'lights': 1, 'kitchen': 2, 'bedRoom': 3 }
 
@@ -48,7 +52,7 @@ def decrease_brightness_group(where):
     bri = get_brightness_group(where)
     if bri > 20:
         set_brightness_group(where, bri - 20)
-    elif:
+    else:
         set_brightness_group(where, 0)
 
 
@@ -56,20 +60,28 @@ def increase_brightness_group(where):
     bri = get_brightness_group(where)
     if bri < 80:
         set_brightness_group(where, bri + 20)
-    elif:
-        set_brightness_group(where, 0)
+    else:
+        set_brightness_group(where, 100)
 
 def set_color(where, color):
     group_id = groups[where]
     xy = [0, 0]
     if color:
         clr = webcolors.name_to_hex(color).split('#')[1]
-        print(clr)
         if clr and clr != '000000':
             xy = converter.hex_to_xy(clr)
-            payload = {"xy": xy}
+            #print(xy)
+            payload = {"xy":xy}
+            #print(payload)
             headers = {'content-type': 'application/json'}
             r = requests.put("http://"+bridge_ip+"/api/"+bridge_username+"/groups/"+str(group_id)+"/action", data=json.dumps(payload), headers=headers)
+            #print(urllib.request.urlopen("http://"+bridge_ip+"/api/"+bridge_username+"/groups/"+str(group_id)).read())
+
+def rotate_color():
+    xs = ['violet', 'slateblue', 'sienna', 'darkgreen', 'pink', 'yellow', 'navy']
+    for x in xs:
+        set_color('lights', x)
+        time.sleep(2)
 
    
 
