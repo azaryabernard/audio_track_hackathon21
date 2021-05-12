@@ -70,8 +70,8 @@ def processCommand(speech):
     decrease_brightness = re.compile(r'^(?=.*decrease)(?=.*brightness).*$', re.I)
     increase_brightness = re.compile(r'^(?=.*increase)(?=.*brightness).*$', re.I)
     set_brightness = re.compile(r'^(?=.*set)(?=.*brightness).*$', re.I)
-    rotate_color = re.compile(r'^(?=.*rotate)(?=.*color).*$', re.I)
-    set_color = re.compile(r'^(?=.*set)(?=.*color).*$', re.I)
+    rotate_color = re.compile(r'^(?=.*rotate)((?=.*color)|(?=.*colour)).*$', re.I)
+    set_color = re.compile(r'^(?=.*set)((?=.*color)|(?=.*colour)).*$', re.I)
     
     play_song = re.compile(r'^(?=.*play)((?=.*song)|(?=.*something)).*$', re.I)
     stop_song = re.compile(r'^(?=.*stop)((?=.*playing)|(?=.*music)).*$', re.I)
