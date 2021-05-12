@@ -25,6 +25,8 @@ callCommand = ["OK Google" , "hey Google" , "hey Alexa" , "Alexa", "hey", "hey J
 
 
 
+volume = 50
+
 def Record():
     CHUNK = 1024
     FORMAT = pyaudio.paInt16
@@ -93,9 +95,6 @@ def processCommand(speech):
     increase_volume = re.compile(r'^((?=.*increase)(?=.*volume))|((?=.*make)(?=.*louder)).*$', re.I)
     decrease_volume = re.compile(r'^((?=.*decrease)(?=.*volume))|((?=.*make)(?=.*softer)).*$', re.I)
 
-    increase_temperature = re.compile(r'^(?=.*increase)(?=.*temperature).*$', re.I)
-    decrease_temperature = re.compile(r'^(?=.*decrease)(?=.*temperature).*$', re.I)
-
     open_door = re.compile(r'^(?=.*open)(?=.*door).*$', re.I)
     close_door = re.compile(r'^(?=.*close)(?=.*door).*$', re.I)
 
@@ -147,47 +146,52 @@ def processCommand(speech):
 
     if play_song.match(speech):
         print("playing a song")
+        command_SoundSystem("Playing a song", volume, speech)
         return
     
     if stop_song.match(speech):
         print("stopping song")
+        command_SoundSystem("Stopping song", volume, speech)
         return
     
     if pause_song.match(speech):
         print("pausing a song")
+        command_SoundSystem("Pausing song", volume, speech)
         return
 
     if increase_volume.match(speech):
         print("increasing volume")
+        edit_volume(10)
+        command_SoundSystem("Increasing volume", volume, speech)
         return
 
     if decrease_volume.match(speech):
         print("decreasing volume")
-        return
-
-    if increase_temperature.match(speech):
-        print("increasing the temperature")
-        return
-    
-    if decrease_temperature.match(speech):
-        print("decreasing the temperature")
+        edit_volume(-10)
+        command_SoundSystem("Decreasing volume", volume, speech)
         return
     
     if open_door.match(speech):
         print("opening door")
+        command_Door('Open', speech)
         return
     
     if close_door.match(speech):
         print("closing door")
+        command_Door('Closed', speech)
         return
 
     if("identify" in speech):
         #todo
         #filtered = output_audio_file(Record())
         #print(filtered)
-        print("Identifying...")
-        sc.classify(Record())
+        result = sc.classify(Record())
+        command_detectsound(result)
         return
+
+def edit_volume(vol):
+    volume += vol
+
 
 try:
     print("A moment of silence, please...")

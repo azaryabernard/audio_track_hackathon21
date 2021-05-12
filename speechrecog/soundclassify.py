@@ -35,7 +35,13 @@ def classify(fn):
     result = model.predict(data)
     #print(result)
     predictions = [np.argmax(y) for y in result]
-    print(lb.inverse_transform([predictions[0]])[0])
+
+    namae = lb.inverse_transform([predictions[0]])[0]
+
+    print(namae)
+
+    return namae
+    
 
 #classify(file_name)
 
