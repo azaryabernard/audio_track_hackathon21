@@ -1,4 +1,4 @@
-from filter import process_audio_data
+from filter import output_audio_file
 import speech_recognition as sr
 import re
 import philips_hue as ph
@@ -144,8 +144,9 @@ def processCommand(speech):
     
     if("identify" in speech):
         #todo
-        path = process_audio_data(Record())
-        sc.classify(path)
+        #filtered = output_audio_file(Record())
+        #print(filtered)
+        sc.classify(Record())
         return
 
 try:
@@ -166,7 +167,7 @@ try:
         print("Got it! Now to recognize it...")
         try:
             # recognize speech using Google Speech Recognition
-            value = r.recognize_google(audio, language="ko")
+            value = r.recognize_google(audio)
 
             # we need some special handling here to correctly print unicode characters to standard output
             if str is bytes:  # this version of Python uses bytes for strings (Python 2)
