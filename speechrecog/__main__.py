@@ -123,7 +123,7 @@ def processCommand(speech):
 
     if set_color.match(speech):
         temp = speech.split(" ")
-        color = temp[0]
+        color = temp[-1]
         ph.set_color('lights', color)
         return
 
