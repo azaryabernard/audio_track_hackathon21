@@ -86,7 +86,7 @@ def rotate_color():
     xs = ['violet', 'slateblue', 'sienna', 'darkgreen', 'navy']
     for x in xs:
         set_color('lights', x)
-        time.sleep(0.8)
+        time.sleep(1)
     set_color('lights', 'white')
 
    

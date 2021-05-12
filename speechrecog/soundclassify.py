@@ -27,15 +27,15 @@ lb.fit_transform(['air_conditioner', 'car_horn', 'children_playing', 'dog_bark',
 
 def classify(fn):
     data = extract_features(fn)
-    print(type(data))
-    print(data.shape)
+    #print(type(data))
+    #print(data.shape)
 
     data = data.reshape(1,40)
 
     result = model.predict(data)
-    print(result)
+    #print(result)
     predictions = [np.argmax(y) for y in result]
-    print(lb.inverse_transform([predictions[0]])[0])
+    #print(lb.inverse_transform([predictions[0]])[0])
 
 #classify(file_name)
 
