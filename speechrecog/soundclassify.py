@@ -20,7 +20,7 @@ def extract_features(file_name):
     return mfccs_processed
 
 #Load segment audio classification model
-model = keras.models.load_model('Main/testmodel.model')
+model = keras.models.load_model('../Main/testmodel.model')
 # Replicate label encoder
 lb = LabelEncoder()
 lb.fit_transform(['air_conditioner', 'car_horn', 'children_playing', 'dog_bark', 'drilling',  'engine_idling', 'gun_shot', 'jackhammer', 'siren', 'street_music'])
