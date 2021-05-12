@@ -73,17 +73,17 @@ def processCommand(speech):
     rotate_color = re.compile(r'^(?=.*rotate)(?=.*color).*$', re.I)
     set_color = re.compile(r'^(?=.*set)(?=.*color).*$', re.I)
     
-    play_song = re.compile(r'^(?=.*play)((?=.*song)|(?=.*something)).*$', re.I)
-    stop_song = re.compile(r'^(?=.*stop)((?=.*playing)|(?=.*music)).*$', re.I)
-    pause_song = re.compile(r'^(?=.*pause)((?=.*song)|(?=.*music))*.*$', re.I)
-    increase_volume = re.compile(r'^(?=.*play)((?=.*song)|(?=.*something)).*$', re.I)
-    decrease_volume = re.compile(r'^(?=.*play)((?=.*song)|(?=.*something)).*$', re.I)
+    play_song = re.compile(r'^(?=.*play)*((?=.*song)|(?=.*something)).*$', re.I)
+    stop_song = re.compile(r'^(?=.*stop)*((?=.*playing)|(?=.*music)).*$', re.I)
+    pause_song = re.compile(r'^(?=.*pause)*((?=.*song)|(?=.*music))*.*$', re.I)
+    increase_volume = re.compile(r'^((?=.*increase)(?=.*volume))|((?=.*make)(?=.*louder)).*$', re.I)
+    decrease_volume = re.compile(r'^((?=.*decrease)(?=.*volume))|((?=.*make)(?=.*softer)).*$', re.I)
 
-    increase_temperature = re.compile(r'^(?=.*play)((?=.*song)|(?=.*something)).*$', re.I)
-    decrease_temperature = re.compile(r'^(?=.*play)((?=.*song)|(?=.*something)).*$', re.I)
+    increase_temperature = re.compile(r'^(?=.*increase)(?=.*temperature).*$', re.I)
+    decrease_temperature = re.compile(r'^(?=.*decrease)(?=.*temperature).*$', re.I)
 
-    open_door = re.compile(r'^(?=.*play)((?=.*song)|(?=.*something)).*$', re.I)
-    close_door = re.compile(r'^(?=.*play)((?=.*song)|(?=.*something)).*$', re.I)
+    open_door = re.compile(r'^((?=.*open)(?=.*door).*$', re.I)
+    close_door = re.compile(r'^(?=.*close)(?=.*door).*$', re.I)
 
     if lights_on.match(speech):
         ph.turn_on_group('lights')
@@ -138,9 +138,6 @@ def processCommand(speech):
         path = Record()
         sc.classify(path)
         return
-
-keywords_lights_off = re.compile(r'^(?=.*turn)((?=.*lights)|(?=.*light))(?=.*off).*$', re.I)
-keywords_lights_on = re.compile(r'^(?=.*turn)((?=.*lights)|(?=.*light))(?=.*on).*$', re.I)
 
 try:
     print("A moment of silence, please...")
