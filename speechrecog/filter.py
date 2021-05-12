@@ -1,14 +1,14 @@
 import sounddevice as sd
 import numpy as np
-from scipy.io.wavfile import write
+from scipy.io.wavfile import write, read
 from scipy import signal
+import os
 
 # These values can be adapted according to your requirements.
 samplerate = 48000
-seconds = 10
 downsample = 1
 input_gain_db = 12
-device = 'snd_rpi_i2s_card'
+#'''device = 'snd_rpi_i2s_card''''
 
 def butter_highpass(cutoff, fs, order=5):
     '''
@@ -57,7 +57,14 @@ def process_audio_data(audiodata):
     # Output the data in the same format as it came in.
     return np.array([[ch1[i], ch2[i]] for i in range(len(ch1))], dtype=np.float32)
 
-# Record stereo audio data for the given duration in seconds.
+def output_audio_file(rec):
+    wavaudio = read(rec)
+    arr = np.array(wavaudio[1],dtype=float)
+    processed = process_audio_data(arr)
+    write('out.wav', int(samplerate/downsample), processed)
+    return ('out.wav')
+
+'''# Record stereo audio data for the given duration in seconds.
 rec = sd.rec(int(seconds * samplerate), samplerate=samplerate, channels=2)
 # Wait until the recording is done.
 sd.wait()
@@ -66,4 +73,4 @@ sd.wait()
 processed = process_audio_data(rec)
 
 # Write the processed audio data to a wav file.
-write('out.wav', int(samplerate/downsample), processed)
+write('out.wav', int(samplerate/downsample), processed)'''

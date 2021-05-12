@@ -25,12 +25,9 @@ lb = LabelEncoder()
 lb.fit_transform(['air_conditioner', 'car_horn', 'children_playing', 'dog_bark', 'drilling',  'engine_idling', 'gun_shot', 'jackhammer', 'siren', 'street_music'])
 
 data = extract_features(file_name)
-print(type(data))
-print(data.shape)
 
 data = data.reshape(1,40)
 
 result = model.predict(data)
-print(result)
 predictions = [np.argmax(y) for y in result]
 print(lb.inverse_transform([predictions[0]])[0])
