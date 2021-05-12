@@ -136,6 +136,38 @@ def processCommand(speech):
         print("playing a song")
         return
     
+    if stop_song.match(speech):
+        print("stopping song")
+        return
+    
+    if pause_song.match(speech):
+        print("pausing a song")
+        return
+
+    if increase_volume.match(speech):
+        print("increasing volume")
+        return
+
+    if decrease_volume.match(speech):
+        print("decreasing volume")
+        return
+
+    if increase_temperature.match(speech):
+        print("increasing the temperature")
+        return
+    
+    if decrease_temperature.match(speech):
+        print("decreasing the temperature")
+        return
+    
+    if open_door.match(speech):
+        print("opening door")
+        return
+    
+    if close_door.match(speech):
+        print("closing door")
+        return
+
     if("identify" in speech):
         #todo
         #filtered = output_audio_file(Record())
