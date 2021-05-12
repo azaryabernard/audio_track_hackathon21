@@ -138,9 +138,9 @@ def processCommand(speech):
     
     if("identify" in speech):
         #todo
-        filtered = output_audio_file(Record())
-        print(filtered)
-        sc.classify(filtered)
+        #filtered = output_audio_file(Record())
+        #print(filtered)
+        sc.classify(Record())
         return
 
 try:

@@ -1,6 +1,6 @@
 import sounddevice as sd
 import numpy as np
-from scipy.io.wavfile import write
+from scipy.io.wavfile import write, read
 from scipy import signal
 import os
 
@@ -58,9 +58,11 @@ def process_audio_data(audiodata):
     return np.array([[ch1[i], ch2[i]] for i in range(len(ch1))], dtype=np.float32)
 
 def output_audio_file(rec):
-    processed = process_audio_data(rec)
+    wavaudio = read(rec)
+    arr = np.array(wavaudio[1],dtype=float)
+    processed = process_audio_data(arr)
     write('out.wav', int(samplerate/downsample), processed)
-    return os.path('out.wav')
+    return ('out.wav')
 
 '''# Record stereo audio data for the given duration in seconds.
 rec = sd.rec(int(seconds * samplerate), samplerate=samplerate, channels=2)
