@@ -7,8 +7,8 @@ import plotly.express as px
 import pandas as pd
 
 #create dataframes & function
-dfrow1 = pd.read_csv('dfrow1.csv')
-dfrow2 = pd.read_csv('dfrow2.csv')
+dfrow1 = pd.read_csv('speechrecog\dfrow1.csv')
+dfrow2 = pd.read_csv('speechrecog\dfrow2.csv')
 
 def command_light(bool_light, color, speech):
     if bool_light == True:
