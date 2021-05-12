@@ -5,7 +5,6 @@ import pandas as pd
 import librosa
 import librosa.display
 import matplotlib
-matplotlib.use('agg')
 import matplotlib.pyplot as plt
 import struct
 from scipy.io import wavfile as wav
@@ -27,26 +26,27 @@ from keras.layers import Dense, Dropout, Activation, Flatten
 from keras.layers import Convolution2D, Conv2D, MaxPooling2D, GlobalAveragePooling2D
 from keras.optimizers import Adam
 from keras.utils import np_utils
-from sklearn import metrics 
-#### Dependencies ####
+from sklearn import metrics
+
+matplotlib.use('agg')
+
 
 def read_file_properties(filename):
+    wave_file = open(filename,"rb")
 
-        wave_file = open(filename,"rb")
+    riff = wave_file.read(12)
+    fmt = wave_file.read(36)
         
-        riff = wave_file.read(12)
-        fmt = wave_file.read(36)
-        
-        num_channels_string = fmt[10:12]
-        num_channels = struct.unpack('<H', num_channels_string)[0]
+    num_channels_string = fmt[10:12]
+    num_channels = struct.unpack('<H', num_channels_string)[0]
 
-        sample_rate_string = fmt[12:16]
-        sample_rate = struct.unpack("<I",sample_rate_string)[0]
+    sample_rate_string = fmt[12:16]
+    sample_rate = struct.unpack("<I",sample_rate_string)[0]
         
-        bit_depth_string = fmt[22:24]
-        bit_depth = struct.unpack("<H",bit_depth_string)[0]
+    bit_depth_string = fmt[22:24]
+    bit_depth = struct.unpack("<H",bit_depth_string)[0]
 
-        return (num_channels, sample_rate, bit_depth)
+    return (num_channels, sample_rate, bit_depth)
     
 dirpath = '/Users/azaryabernard/_HACKATHON/audio_track_hackathon21/Main'
 os.chdir(dirpath)

@@ -1,15 +1,14 @@
 import speech_recognition as sr
 import re
 import philips_hue as ph
-import soundclassify as sc
 import pyaudio
 import wave
 
 r = sr.Recognizer()
 m = sr.Microphone()
 
-stopCommands = ["stop","stop listening"]
-callCommand = ["OK Google" , "hey Google" , "hey Alexa" , "Alexa", "hey", "hey Jeffrey","Jeffrey","hey Dennis"]
+stopCommands = ["stop","stop listening","turn off"]
+callCommand = ["OK Google" , "hey Google" , "hey Alexa" , "Alexa", "hey", "hey Jeffrey","Jeffrey"]
 
 def Record():
     CHUNK = 1024
@@ -53,11 +52,6 @@ def Record():
 
 def processCommand(speech):
 
-    for stopCmd in stopCommands:
-        if stopCmd in value:
-            print("stop listening...")
-            exit()
-
     for cmd in callCommand:
         if (cmd in speech):
             print("call command specified")
@@ -67,23 +61,7 @@ def processCommand(speech):
 
     lights_on = re.compile(r'^(?=.*turn)((?=.*lights)|(?=.*light))(?=.*on).*$', re.I)
     lights_off = re.compile(r'^(?=.*turn)((?=.*lights)|(?=.*light))(?=.*off).*$', re.I)
-    decrease_brightness = re.compile(r'^(?=.*decrease)(?=.*brightness).*$', re.I)
-    increase_brightness = re.compile(r'^(?=.*increase)(?=.*brightness).*$', re.I)
-    set_brightness = re.compile(r'^(?=.*set)(?=.*brightness).*$', re.I)
-    rotate_color = re.compile(r'^(?=.*rotate)((?=.*color)|(?=.*colour)).*$', re.I)
-    set_color = re.compile(r'^(?=.*set)((?=.*color)|(?=.*colour)).*$', re.I)
-    
-    play_song = re.compile(r'^(?=.*play)*((?=.*song)|(?=.*something)).*$', re.I)
-    stop_song = re.compile(r'^(?=.*stop)*((?=.*playing)|(?=.*music)).*$', re.I)
-    pause_song = re.compile(r'^(?=.*pause)*((?=.*song)|(?=.*music))*.*$', re.I)
-    increase_volume = re.compile(r'^((?=.*increase)(?=.*volume))|((?=.*make)(?=.*louder)).*$', re.I)
-    decrease_volume = re.compile(r'^((?=.*decrease)(?=.*volume))|((?=.*make)(?=.*softer)).*$', re.I)
-
-    increase_temperature = re.compile(r'^(?=.*increase)(?=.*temperature).*$', re.I)
-    decrease_temperature = re.compile(r'^(?=.*decrease)(?=.*temperature).*$', re.I)
-
-    open_door = re.compile(r'^((?=.*open)(?=.*door).*$', re.I)
-    close_door = re.compile(r'^(?=.*close)(?=.*door).*$', re.I)
+    play_song = re.compile(r'^(?=.*play)((?=.*song)|(?=.*something)).*$', re.I)
 
     if lights_on.match(speech):
         ph.turn_on_group('lights')
@@ -95,51 +73,17 @@ def processCommand(speech):
         print("turning lights off")
         return
     
-    if decrease_brightness.match(speech):
-        ph.decrease_brightness_group('lights')
-        print("decreasing brightness")
-        return
-
-    if increase_brightness.match(speech):
-        ph.increase_brightness_group('lights')
-        print("decreasing brightness")
-        return
-
-    if set_brightness.match(speech):
-        temp = re.findall(r'\d+', speech)
-        percentage = list(map(int, temp))
-        
-        if percentage[0] > 100:
-            ph.set_brightness_group('lights', 100)
-            print("setting brightness to 100%")
-        elif percentage[0] < 0:
-            ph.set_brightness_group('lights', 0)
-            print("setting brightness to 0%")
-        else:
-            ph.set_brightness_group('lights', percentage[0])
-            print("setting brightness to " + str(percentage[0]) + "%")
-
-        return
-
-    if set_color.match(speech):
-        temp = speech.split(" ")
-        color = temp[-1]
-        ph.set_color('lights', color)
-        return
-
-    if rotate_color.match(speech):
-        ph.rotate_color()
-        return
-
     if play_song.match(speech):
         print("playing a song")
         return
+
+    for stopCmd in stopCommands:
+        if stopCmd in value:
+            print("stop listening...")
+            exit()
     
-    if("identify" in speech):
-        #todo
-        path = Record()
-        sc.classify(path)
-        return
+keywords_lights_off = re.compile(r'^(?=.*turn)((?=.*lights)|(?=.*light))(?=.*off).*$', re.I)
+keywords_lights_on = re.compile(r'^(?=.*turn)((?=.*lights)|(?=.*light))(?=.*on).*$', re.I)
 
 try:
     print("A moment of silence, please...")
