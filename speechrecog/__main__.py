@@ -125,9 +125,11 @@ def processCommand(speech):
         temp = speech.split(" ")
         color = temp[0]
         ph.set_color('lights', color)
+        return
 
     if rotate_color.match(speech):
         ph.rotate_color()
+        return
 
     if play_song.match(speech):
         print("playing a song")
