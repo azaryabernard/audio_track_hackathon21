@@ -1,4 +1,3 @@
-from filter import output_audio_file
 import speech_recognition as sr
 import re
 import philips_hue as ph
@@ -12,19 +11,19 @@ from jesica4 import command_SoundSystem
 from jesica4 import command_Door
 from jesica4 import command_detectsound
 
+command_light(True, '#FFC200', 'Turn on the light Jesica to red')
+command_SoundSystem('On', 30, 'Can you turn on the speakers to 30%')
+command_Door('Open', 'Please open the door')
+command_detectsound('dog_bark')
+
+
 r = sr.Recognizer()
 m = sr.Microphone()
 
 stopCommands = ["stop","stop listening"]
 callCommand = ["OK Google" , "hey Google" , "hey Alexa" , "Alexa", "hey", "hey Jeffrey","Jeffrey","hey Dennis", 'hey Jessica', 'Jessica']
 
-command_light(True, '#FFC200', 'Turn on the light Jesica to red')
-command_SoundSystem('On', 30, 'Can you turn on the speakers to 30%')
-command_Door('Open', 'Please open the door')
-command_detectsound('dog_bark')
 
-app = create_dashboard()
-app.run_server(debug=True)
 
 def Record():
     CHUNK = 1024
@@ -71,17 +70,14 @@ def processCommand(speech):
     for stopCmd in stopCommands:
         if stopCmd in value:
             print("stop listening...")
-
-
-
             exit()
 
     for cmd in callCommand:
         if (cmd in speech):
             print("call command specified")
             break
-    else:
-        return
+        else:
+            return
 
     lights_on = re.compile(r'^(?=.*turn)((?=.*lights)|(?=.*light))(?=.*on).*$', re.I)
     lights_off = re.compile(r'^(?=.*turn)((?=.*lights)|(?=.*light))(?=.*off).*$', re.I)
@@ -93,7 +89,7 @@ def processCommand(speech):
     
     play_song = re.compile(r'^(?=.*play)*((?=.*song)|(?=.*something)).*$', re.I)
     stop_song = re.compile(r'^(?=.*stop)*((?=.*playing)|(?=.*music)).*$', re.I)
-    pause_song = re.compile(r'^(?=.*pause)*((?=.*song)|(?=.*music))*.*$', re.I)
+    pause_song = re.compile(r'^(?=.*pause)*((?=.*song)|(?=.*music)).*$', re.I)
     increase_volume = re.compile(r'^((?=.*increase)(?=.*volume))|((?=.*make)(?=.*louder)).*$', re.I)
     decrease_volume = re.compile(r'^((?=.*decrease)(?=.*volume))|((?=.*make)(?=.*softer)).*$', re.I)
 
@@ -120,7 +116,7 @@ def processCommand(speech):
 
     if increase_brightness.match(speech):
         ph.increase_brightness_group('lights')
-        print("decreasing brightness")
+        print("increasing brightness")
         return
 
     if set_brightness.match(speech):
@@ -189,6 +185,7 @@ def processCommand(speech):
         #todo
         #filtered = output_audio_file(Record())
         #print(filtered)
+        print("Identifying...")
         sc.classify(Record())
         return
 
