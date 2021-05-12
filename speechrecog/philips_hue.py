@@ -67,7 +67,12 @@ def set_color(where, color):
     group_id = groups[where]
     xy = [0, 0]
     if color:
-        clr = webcolors.name_to_hex(color).split('#')[1]
+        try:
+            col =  webcolors.name_to_hex(color)
+        except ValueError:
+            print("Cannot recognize the color: " + color)
+            return
+        clr = col.split('#')[1]
         if clr and clr != '000000':
             xy = converter.hex_to_xy(clr)
             #print(xy)
@@ -78,10 +83,11 @@ def set_color(where, color):
             #print(urllib.request.urlopen("http://"+bridge_ip+"/api/"+bridge_username+"/groups/"+str(group_id)).read())
 
 def rotate_color():
-    xs = ['violet', 'slateblue', 'sienna', 'darkgreen', 'pink', 'yellow', 'navy']
+    xs = ['violet', 'slateblue', 'sienna', 'darkgreen', 'navy']
     for x in xs:
         set_color('lights', x)
-        time.sleep(2)
+        time.sleep(0.8)
+    set_color('lights', 'white')
 
    
 
