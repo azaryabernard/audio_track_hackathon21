@@ -6,11 +6,25 @@ import soundclassify as sc
 import pyaudio
 import wave
 
+from jesica4 import create_dashboard
+from jesica4 import command_light
+from jesica4 import command_SoundSystem
+from jesica4 import command_Door
+from jesica4 import command_detectsound
+
 r = sr.Recognizer()
 m = sr.Microphone()
 
 stopCommands = ["stop","stop listening"]
 callCommand = ["OK Google" , "hey Google" , "hey Alexa" , "Alexa", "hey", "hey Jeffrey","Jeffrey","hey Dennis", 'hey Jessica', 'Jessica']
+
+command_light(True, '#FFC200', 'Turn on the light Jesica to red')
+command_SoundSystem('On', 30, 'Can you turn on the speakers to 30%')
+command_Door('Open', 'Please open the door')
+command_detectsound('dog_bark')
+
+app = create_dashboard()
+app.run_server(debug=True)
 
 def Record():
     CHUNK = 1024
@@ -57,6 +71,9 @@ def processCommand(speech):
     for stopCmd in stopCommands:
         if stopCmd in value:
             print("stop listening...")
+
+
+
             exit()
 
     for cmd in callCommand:
@@ -136,6 +153,38 @@ def processCommand(speech):
         print("playing a song")
         return
     
+    if stop_song.match(speech):
+        print("stopping song")
+        return
+    
+    if pause_song.match(speech):
+        print("pausing a song")
+        return
+
+    if increase_volume.match(speech):
+        print("increasing volume")
+        return
+
+    if decrease_volume.match(speech):
+        print("decreasing volume")
+        return
+
+    if increase_temperature.match(speech):
+        print("increasing the temperature")
+        return
+    
+    if decrease_temperature.match(speech):
+        print("decreasing the temperature")
+        return
+    
+    if open_door.match(speech):
+        print("opening door")
+        return
+    
+    if close_door.match(speech):
+        print("closing door")
+        return
+
     if("identify" in speech):
         #todo
         #filtered = output_audio_file(Record())
