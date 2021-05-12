@@ -16,7 +16,7 @@ def Record():
     FORMAT = pyaudio.paInt16
     CHANNELS = 2
     RATE = 44100
-    RECORD_SECONDS = 10
+    RECORD_SECONDS = 5
     WAVE_OUTPUT_FILENAME = "output.wav"
 
     p = pyaudio.PyAudio()
@@ -70,8 +70,8 @@ def processCommand(speech):
     decrease_brightness = re.compile(r'^(?=.*decrease)(?=.*brightness).*$', re.I)
     increase_brightness = re.compile(r'^(?=.*increase)(?=.*brightness).*$', re.I)
     set_brightness = re.compile(r'^(?=.*set)(?=.*brightness).*$', re.I)
-    rotate_color = re.compile(r'^(?=.*rotate)(?=.*color).*$', re.I)
-    set_color = re.compile(r'^(?=.*set)(?=.*color).*$', re.I)
+    rotate_color = re.compile(r'^(?=.*rotate)((?=.*color)|(?=.*colour)).*$', re.I)
+    set_color = re.compile(r'^(?=.*set)((?=.*color)|(?=.*colour)).*$', re.I)
     
     play_song = re.compile(r'^(?=.*play)*((?=.*song)|(?=.*something)).*$', re.I)
     stop_song = re.compile(r'^(?=.*stop)*((?=.*playing)|(?=.*music)).*$', re.I)
@@ -123,11 +123,13 @@ def processCommand(speech):
 
     if set_color.match(speech):
         temp = speech.split(" ")
-        color = temp[0]
+        color = temp[-1]
         ph.set_color('lights', color)
+        return
 
     if rotate_color.match(speech):
         ph.rotate_color()
+        return
 
     if play_song.match(speech):
         print("playing a song")

@@ -6,9 +6,9 @@ import matplotlib.pyplot as plt
 
 import os
 
-os.chdir('/home/pi/_HACKATHON/audio_track_hackathon21')
+#os.chdir('/home/pi/_HACKATHON/audio_track_hackathon21')
 
-file_name = 'speechrecog/policesiren.wav'
+#file_name = 'speechrecog/policesiren.wav'
 
 
 
@@ -20,22 +20,22 @@ def extract_features(file_name):
     return mfccs_processed
 
 #Load segment audio classification model
-model = keras.models.load_model('Main/testmodel.model')
+model = keras.models.load_model('../Main/testmodel.model')
 # Replicate label encoder
 lb = LabelEncoder()
 lb.fit_transform(['air_conditioner', 'car_horn', 'children_playing', 'dog_bark', 'drilling',  'engine_idling', 'gun_shot', 'jackhammer', 'siren', 'street_music'])
 
 def classify(fn):
     data = extract_features(fn)
-    print(type(data))
-    print(data.shape)
+    #print(type(data))
+    #print(data.shape)
 
     data = data.reshape(1,40)
 
     result = model.predict(data)
-    print(result)
+    #print(result)
     predictions = [np.argmax(y) for y in result]
-    print(lb.inverse_transform([predictions[0]])[0])
+    #print(lb.inverse_transform([predictions[0]])[0])
 
-classify(file_name)
+#classify(file_name)
 
