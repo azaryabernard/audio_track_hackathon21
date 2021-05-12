@@ -1,3 +1,4 @@
+from filter import process_audio_data
 import speech_recognition as sr
 import re
 import philips_hue as ph
@@ -70,20 +71,20 @@ def processCommand(speech):
     decrease_brightness = re.compile(r'^(?=.*decrease)(?=.*brightness).*$', re.I)
     increase_brightness = re.compile(r'^(?=.*increase)(?=.*brightness).*$', re.I)
     set_brightness = re.compile(r'^(?=.*set)(?=.*brightness).*$', re.I)
-    rotate_color = re.compile(r'^(?=.*rotate)(?=.*color).*$', re.I)
-    set_color = re.compile(r'^(?=.*set)(?=.*color).*$', re.I)
+    rotate_color = re.compile(r'^(?=.*rotate)((?=.*color)|(?=.*colour)).*$', re.I)
+    set_color = re.compile(r'^(?=.*set)((?=.*color)|(?=.*colour)).*$', re.I)
     
-    play_song = re.compile(r'^(?=.*play)((?=.*song)|(?=.*something)).*$', re.I)
-    stop_song = re.compile(r'^(?=.*stop)((?=.*playing)|(?=.*music)).*$', re.I)
-    pause_song = re.compile(r'^(?=.*pause)((?=.*song)|(?=.*music))*.*$', re.I)
-    increase_volume = re.compile(r'^(?=.*play)((?=.*song)|(?=.*something)).*$', re.I)
-    decrease_volume = re.compile(r'^(?=.*play)((?=.*song)|(?=.*something)).*$', re.I)
+    play_song = re.compile(r'^(?=.*play)*((?=.*song)|(?=.*something)).*$', re.I)
+    stop_song = re.compile(r'^(?=.*stop)*((?=.*playing)|(?=.*music)).*$', re.I)
+    pause_song = re.compile(r'^(?=.*pause)*((?=.*song)|(?=.*music))*.*$', re.I)
+    increase_volume = re.compile(r'^((?=.*increase)(?=.*volume))|((?=.*make)(?=.*louder)).*$', re.I)
+    decrease_volume = re.compile(r'^((?=.*decrease)(?=.*volume))|((?=.*make)(?=.*softer)).*$', re.I)
 
-    increase_temperature = re.compile(r'^(?=.*play)((?=.*song)|(?=.*something)).*$', re.I)
-    decrease_temperature = re.compile(r'^(?=.*play)((?=.*song)|(?=.*something)).*$', re.I)
+    increase_temperature = re.compile(r'^(?=.*increase)(?=.*temperature).*$', re.I)
+    decrease_temperature = re.compile(r'^(?=.*decrease)(?=.*temperature).*$', re.I)
 
-    open_door = re.compile(r'^(?=.*play)((?=.*song)|(?=.*something)).*$', re.I)
-    close_door = re.compile(r'^(?=.*play)((?=.*song)|(?=.*something)).*$', re.I)
+    open_door = re.compile(r'^(?=.*open)(?=.*door).*$', re.I)
+    close_door = re.compile(r'^(?=.*close)(?=.*door).*$', re.I)
 
     if lights_on.match(speech):
         ph.turn_on_group('lights')
@@ -123,11 +124,13 @@ def processCommand(speech):
 
     if set_color.match(speech):
         temp = speech.split(" ")
-        color = temp[0]
+        color = temp[-1]
         ph.set_color('lights', color)
+        return
 
     if rotate_color.match(speech):
         ph.rotate_color()
+        return
 
     if play_song.match(speech):
         print("playing a song")
@@ -135,12 +138,9 @@ def processCommand(speech):
     
     if("identify" in speech):
         #todo
-        path = Record()
+        path = process_audio_data(Record())
         sc.classify(path)
         return
-
-keywords_lights_off = re.compile(r'^(?=.*turn)((?=.*lights)|(?=.*light))(?=.*off).*$', re.I)
-keywords_lights_on = re.compile(r'^(?=.*turn)((?=.*lights)|(?=.*light))(?=.*on).*$', re.I)
 
 try:
     print("A moment of silence, please...")
