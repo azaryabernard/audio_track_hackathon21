@@ -1,4 +1,4 @@
-from filter import process_audio_data
+from filter import output_audio_file
 import speech_recognition as sr
 import re
 import philips_hue as ph
@@ -138,8 +138,9 @@ def processCommand(speech):
     
     if("identify" in speech):
         #todo
-        path = process_audio_data(Record())
-        sc.classify(path)
+        filtered = output_audio_file(Record())
+        print(filtered)
+        sc.classify(filtered)
         return
 
 try:
