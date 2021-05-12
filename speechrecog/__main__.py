@@ -6,6 +6,12 @@ import soundclassify as sc
 import pyaudio
 import wave
 
+from jesica4 import create_dashboard
+from jesica4 import command_light
+from jesica4 import command_SoundSystem
+from jesica4 import command_Door
+from jesica4 import command_detectsound
+
 r = sr.Recognizer()
 m = sr.Microphone()
 
