@@ -1,3 +1,4 @@
+from filter import process_audio_data
 import speech_recognition as sr
 import re
 import philips_hue as ph
@@ -82,7 +83,7 @@ def processCommand(speech):
     increase_temperature = re.compile(r'^(?=.*increase)(?=.*temperature).*$', re.I)
     decrease_temperature = re.compile(r'^(?=.*decrease)(?=.*temperature).*$', re.I)
 
-    open_door = re.compile(r'^((?=.*open)(?=.*door).*$', re.I)
+    open_door = re.compile(r'^(?=.*open)(?=.*door).*$', re.I)
     close_door = re.compile(r'^(?=.*close)(?=.*door).*$', re.I)
 
     if lights_on.match(speech):
@@ -137,7 +138,7 @@ def processCommand(speech):
     
     if("identify" in speech):
         #todo
-        path = Record()
+        path = process_audio_data(Record())
         sc.classify(path)
         return
 
