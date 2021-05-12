@@ -16,7 +16,7 @@ r = sr.Recognizer()
 m = sr.Microphone()
 
 stopCommands = ["stop","stop listening"]
-callCommand = ["OK Google" , "hey Google" , "hey Alexa" , "Alexa", "hey", "hey Jeffrey","Jeffrey","hey Dennis"]
+callCommand = ["OK Google" , "hey Google" , "hey Alexa" , "Alexa", "hey", "hey Jeffrey","Jeffrey","hey Dennis", 'hey Jessica', 'Jessica']
 
 command_light(True, '#FFC200', 'Turn on the light Jesica to red')
 command_SoundSystem('On', 30, 'Can you turn on the speakers to 30%')
